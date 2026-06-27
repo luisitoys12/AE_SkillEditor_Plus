@@ -1,170 +1,229 @@
-## 警告
+# AE Skill Editor Plus — Editor de Habilidades para Unity
 
-在添加轨道或者Clip后切勿修改类名称,否则所有拥有该轨道或者Clip的资产失效!
+> Fork traducido al español por [@luisitoys12](https://github.com/luisitoys12)  
+> Proyecto original: [ancientElement/AE_SkillEditor_Plus](https://github.com/ancientElement/AE_SkillEditor_Plus)
 
-## 视频讲解
+---
+
+## ⚠️ ADVERTENCIA IMPORTANTE
+
+**Después de agregar una pista (track) o un Clip, NO modifiques el nombre de las clases.**  
+Si cambias el nombre de una clase, **todos los activos (assets) que contengan esa pista o Clip quedarán inválidos e inutilizables.**
+
+---
+
+## 🎬 Video de Explicación
 
 https://www.bilibili.com/video/BV1LD421s7Dn/?spm_id_from=333.788
 
-## 创建资产
+---
 
-通过右键Create、AETimeline编辑器、AETimelineAssets创建资产。
+## Crear un Activo (Asset)
+
+Haz clic derecho en el panel de Proyecto → **Create → AETimeline编辑器 → AETimelineAssets** para crear un activo.
 
 ![](ImagesAssets/Pasted%20image%2020240503172205.png)
 
-## 打开窗口
+---
 
-通过菜单项Tools、AETimeline编辑器打开编辑器窗口。
+## Abrir la Ventana del Editor
+
+Ve al menú **Tools → AETimeline编辑器** para abrir la ventana del editor.
 
 ![](ImagesAssets/Pasted%20image%2020240503172328.png)
 
-## 选择资产
+---
 
-如图中左边ObjectField是AETimelineAssets附加到的对象，右边选择AETimelineAssets资产。
+## Seleccionar un Activo
+
+En el editor:
+- **Campo izquierdo (ObjectField):** el objeto al que está adjunto el AETimelineAssets.
+- **Campo derecho:** selecciona el activo AETimelineAssets que quieres editar.
 
 ![](ImagesAssets/Pasted%20image%2020240503172433.png)
 
-## 编辑
+---
 
-### 右键
+## Edición
 
-通过右键创建轨道与Clip项，如图所示，右键轨道头部分空白处，弹出上下文菜单，选择对应轨道创建。
+### Clic Derecho — Crear y Eliminar
+
+Mediante el clic derecho puedes crear pistas (tracks) y Clips.
+
+**Crear una pista:** Haz clic derecho en el área vacía del **encabezado de la pista** → aparece un menú contextual → selecciona el tipo de pista a crear.
 
 ![](ImagesAssets/Pasted%20image%2020240503172754.png)
 
-同理右键轨道头部，弹出上下文菜单，删除右键的轨道。
+**Eliminar una pista:** Haz clic derecho en el **encabezado de la pista** → selecciona eliminar en el menú contextual.
 
 ![](ImagesAssets/Pasted%20image%2020240503172849.png)
 
-右键轨道体空白处，在对应轨道体中添加Clip项。
+**Agregar un Clip:** Haz clic derecho en el **área vacía del cuerpo de la pista** → agrega un nuevo Clip a esa pista.
 
 ![](ImagesAssets/Pasted%20image%2020240503173002.png)
 
-### 快捷键
+---
 
-操作Clip的快捷键有下面几种：
+### Atajos de Teclado para Clips
 
-Ctrl+C：复制对应Clip
+| Atajo | Acción |
+|---|---|
+| `Ctrl + C` | Copiar el Clip seleccionado |
+| `Ctrl + V` | Pegar el Clip copiado en la posición del cursor |
+| `Ctrl + X` | Cortar el Clip seleccionado |
+| `Delete` | Eliminar el Clip seleccionado |
 
-Ctrl+V：粘贴复制的Clip到鼠标位置
+---
 
-Ctrl+X：剪切对应Clip
+### Manipular Clips con el Mouse
 
-Delete：删除对应Clip
+- **Mover:** Arrastra el Clip para cambiar su posición de inicio.
+- **Redimensionar:** Coloca el cursor al **final del Clip** — cuando aparezca el ícono de redimensionar (Resize), arrastra para cambiar la duración del Clip.
 
-### 操作Clip
+### Rueda del Mouse (Botón Central)
 
-用鼠标拖动Clip可以改变Clip起始位置。
+Con el **botón central del mouse** sobre la zona derecha de la pista, puedes **desplazarte horizontalmente** por la línea de tiempo.
 
-将鼠标放在Clip的尾部，鼠标显示为Resize样式的时候，可以拖动改变Clip大小。
+---
 
-### 鼠标中键
+## Pistas Personalizadas
 
-鼠标中键在轨道右侧部分，可拖动轨道左右移动。
+*(AEAnimationTrack)*
 
-## 自定义轨道
+Para crear pistas personalizadas:
 
-(AEAnimationTrack)
+- Las **pistas** deben heredar de `StandardTrack`.
+- Los **Clips** deben heredar de `StandardClip`.
+- Usa el atributo `AEBindClip` para vincular ambas clases.
 
-自定义轨道需要继承自标准轨道StandardTrack，自定义Clip需要继承自StandardClip，我们用特性AEBindClip将这两个类联系到一起。
+Cualquier clase que herede de `StandardTrack` se agregará automáticamente al menú contextual de creación de pistas.
 
-继承自StandardTrack的类，会自动加入创建轨道上下文菜单中。
-
-注意，在编写Clip类的时候，一定要将Clip类编写为单独文件，且文件名称与类名一致
+> **Nota importante:** Al escribir la clase de un Clip, esta **debe estar en un archivo separado** y el **nombre del archivo debe coincidir exactamente con el nombre de la clase.**
 
 ![](ImagesAssets/Pasted%20image%2020240503190400.png)
 
-### 必要特性
+### Atributos Obligatorios
 
-下面这些特性是编写自定义轨道的时候必须要写的：
+Al crear pistas personalizadas, los siguientes atributos son **obligatorios**:
 
-AETrackName：用来描述轨道名称的特性
-
-AETrackColor：用来描述轨道颜色的特性
-
-AEBindClip：用来描述轨道的对应Clip类型的特性
-
-Serializable：用来标记为可序列化的特性
+| Atributo | Descripción |
+|---|---|
+| `AETrackName` | Define el nombre visible de la pista |
+| `AETrackColor` | Define el color de la pista |
+| `AEBindClip` | Vincula el tipo de Clip correspondiente a la pista |
+| `Serializable` | Marca la clase como serializable |
 
 ![](ImagesAssets/Pasted%20image%2020240503173908.png)
 
-### 自定义样式AEClipStyleAttribute
+---
 
-(AEAnimationTrack、CustomAnimationClip)
+### Estilos Personalizados con AEClipStyleAttribute
 
-当用户需要自定义Clip的样式的时候可以使用AEClipStyleAttribute特性，这个特性用来描述编写了自定义Clip样式函数的类。
+*(AEAnimationTrack, CustomAnimationClip)*
 
-其中ClassName一定要写全(Type.fullName)，OverrideUI决定是覆盖原来的UI，还是在原来的UI基础上继续绘制。
+Cuando necesitas personalizar el aspecto visual (estilo) de un Clip en el editor, usa el atributo `AEClipStyleAttribute`. Este atributo indica qué clase contiene la función de estilo personalizado del Clip.
+
+- **`ClassName`:** Debe ser el nombre completo del tipo (`Type.FullName`).
+- **`OverrideUI`:** Si es `true`, reemplaza la UI original. Si es `false`, dibuja encima de la UI original.
 
 ![](ImagesAssets/Pasted%20image%2020240503190945.png)
 
 ![](ImagesAssets/Pasted%20image%2020240503170103.png)
 
-使用时，传入自定义样式函数的类名。例如：AEAnimationTrack在CustomAnimationClip类中编写了自定义Clip样式的函数。于是我们传入了AE_SkillEditor_Plus.Excample.BuiltTracks.CustomAnimationClip作为ClassName。
+**Ejemplo:** `AEAnimationTrack` escribe su función de estilo personalizado dentro de `CustomAnimationClip`. Por lo tanto, se pasa `AE_SkillEditor_Plus.Excample.BuiltTracks.CustomAnimationClip` como `ClassName`.
 
-注意，用户编写的其他自定义Clip样式的函数，一定要是静态函数，并且参数和CustomAnimationClip.UpdateUI一模一样。
-
-否则会报错，且自定义函数不生效。
+> **Importante:**
+> - La función de estilo personalizado debe ser **estática**.
+> - Sus parámetros deben ser **exactamente iguales** a los de `CustomAnimationClip.UpdateUI`.
+> - Si no se cumple esto, el sistema reportará un error y la función no tendrá efecto.
 
 ![](ImagesAssets/Pasted%20image%2020240503191332.png)
 
-自定义的样式类一定要放在Editor下。
+Las clases de estilo personalizado **deben colocarse dentro de una carpeta `Editor`**.
 
 ![](ImagesAssets/Pasted%20image%2020240503173825.png)
 
-### 轨道驱动
+---
 
-(AEAnimationEditorBehaviour)
+### Comportamiento de Pistas (Track Behaviour)
+
+*(AEAnimationEditorBehaviour)*
 
 ![](ImagesAssets/Pasted%20image%2020240503173908.png)
 
-需要Track类继承 IEditorBehaviour,
-IRuntimeBehaviour，并且分别实现CreateEditorBehaviour和CreateRuntimeBehaviour方法，返回对应AEPlayableBehaviour。
+Para que una pista tenga comportamiento, la clase `Track` debe implementar las interfaces `IEditorBehaviour` e `IRuntimeBehaviour`, y los métodos:
+
+- `CreateEditorBehaviour()` → retorna un `AEPlayableBehaviour` para el editor.
+- `CreateRuntimeBehaviour()` → retorna un `AEPlayableBehaviour` para en tiempo de ejecución.
 
 #### AEPlayableBehaviour
 
 ![](ImagesAssets/Pasted%20image%2020240503195339.png)
 
-AEPlayableBehaviour中有生命周期函数：OnEnter、Tick、OnExit，供用户自定义Clip的行为。
+`AEPlayableBehaviour` expone los siguientes métodos de ciclo de vida para personalizar el comportamiento de un Clip:
 
-要注意的是，子类重写OnEnter、OnExit方法一定要调用基类的对应方法。
+| Método | Descripción |
+|---|---|
+| `OnEnter` | Se llama al iniciar el Clip |
+| `Tick` | Se llama cada frame mientras el Clip está activo |
+| `OnExit` | Se llama al terminar el Clip |
 
-我们在构造函数中拿到对应的Clip并且保存下来，在生命周期函数中就可以得到对应的Clip了。
+> **Nota:** Al sobreescribir `OnEnter` u `OnExit` en una subclase, **siempre llama al método base** (`base.OnEnter()` / `base.OnExit()`).
 
-例如：在AEAnimationEditorBehaviour中我们在构造函数中拿到了AEAnimationClip，在当前Clip的运行时间内，每一帧都都会调用Tick，我们在Tick中使用SampleAnimation来播放每一帧。
+En el **constructor** del Behaviour, obtén y guarda la referencia al Clip correspondiente. Así podrás acceder a sus datos desde los métodos del ciclo de vida.
 
-## Runtime模式
+**Ejemplo:** En `AEAnimationEditorBehaviour`, el constructor obtiene el `AEAnimationClip`. Luego, en `Tick`, se llama a `SampleAnimation` cada frame para reproducir la animación cuadro a cuadro.
+
+---
+
+## Modo Runtime (Tiempo de Ejecución)
 
 ![](ImagesAssets/Pasted%20image%2020240503173908.png)
 
-要在Runtime下运行对应轨道，一定要实现IRuntimeBehaviour接口。具体的AEPlayableBehaviour实现在上面已经讲过了。
+Para ejecutar pistas en **tiempo de ejecución**, la clase `Track` **debe implementar la interfaz `IRuntimeBehaviour`**. La implementación de `AEPlayableBehaviour` es la misma descrita anteriormente.
 
 ![](ImagesAssets/Pasted%20image%2020240503174758.png)
 
-AETimelineTick是运行时的驱动器，我们要播放一个资产需要调用AETimelineTick.PlayAsset，传入对应的资产。
+`AETimelineTick` es el **controlador de ejecución en tiempo real**. Para reproducir un activo:
 
-并且在Update函数中更新驱动器。
+1. Llama a `AETimelineTick.PlayAsset(asset)` pasando el activo que quieres reproducir.
+2. Llama a la **actualización del controlador dentro del método `Update`** de tu script.
 
-## 内置轨道
+---
 
-### 动画轨道
+## Pistas Integradas (Built-in)
+
+### Pista de Animación
 
 ![](ImagesAssets/Pasted%20image%2020240503185358.png)
 
-在动画轨道中，Clip超出原本动画范围后，有一个红色的分界线表示动画的结束位置。这些是使用自定义Clip样式实现的，也就是上面提到的AEClipStyleAttribute。当刚刚好的时候分界线是绿色的。
+En la pista de animación, cuando un Clip excede el rango original de la animación:
+- Se muestra una **línea divisoria roja** indicando el punto final de la animación.
+- Cuando el Clip encaja exactamente, la línea divisoria es **verde**.
 
-为了在编辑器模式下使得多段动画的位移正常，使用了StartPosition记录本段Clip开始的位置。
+Esto se implementa usando estilos Clip personalizados (`AEClipStyleAttribute`).
+
+Para que el desplazamiento de personajes funcione correctamente con múltiples segmentos de animación en modo editor, se usa el campo `StartPosition` para registrar la posición inicial de cada Clip.
 
 ![](ImagesAssets/Pasted%20image%2020240503191938.png)
 
-在播放到上一个动画末尾时，选中人物的Position，我们用Ctrl+C复制对应人物的Position，再回到Clip面板选中StartPositon，Ctrl+V，就可以粘贴对应位置。
+**Cómo copiar la posición al final de la animación anterior:**
+1. Reproduce hasta el final de la animación anterior.
+2. Selecciona la propiedad `Position` del personaje y presiona `Ctrl+C`.
+3. Ve al panel del Clip y selecciona el campo `StartPosition`.
+4. Presiona `Ctrl+V` para pegar la posición copiada.
 
 ![](ImagesAssets/Pasted%20image%2020240503192154.png)
 
-## 特效轨道声效轨道
+---
 
-特效轨道和声效轨道没有什么好讲的，正常使用即可。
+## Pistas de Efectos y Sonido
 
-注意，如果声效没有音量注意看Volume参数是否为0
+Las **pistas de efectos visuales (VFX)** y **pistas de audio (SFX)** son sencillas de usar, no requieren configuración especial.
 
-特效轨道中注意Follow参数勾上后，特效会和gameObject保持Position的相对距离。
+> - Si el audio **no tiene volumen**, revisa que el parámetro `Volume` **no sea 0**.
+> - En la pista de efectos, si activas el parámetro **`Follow`**, el efecto visual **mantendrá su posición relativa** respecto al `GameObject` al que está adjunto.
+
+---
+
+*Traducido al español por [@luisitoys12](https://github.com/luisitoys12) — fork del proyecto original [ancientElement/AE_SkillEditor_Plus](https://github.com/ancientElement/AE_SkillEditor_Plus)*
